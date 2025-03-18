@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="LetterCreator.MainPage">
+             
+    <ScrollView>
+        <VerticalStackLayout
+            Padding="50"
+            Spacing="25">
+            <Entry Placeholder="Adress" Text="{Binding Path=Adress, Mode=TwoWay}"/>
+            <Entry Placeholder="Phone number"  Text="{Binding Path=Phone, Mode=TwoWay}"/>
+            <Entry Placeholder="Recipient" Text="{Binding Path=Recipient, Mode=TwoWay}"/>
+            <Line X1="0" X2="600" Stroke="{StaticResource Gray500}"/>
+            <Entry Placeholder="Letter Theme" Text="{Binding Path=Theme, Mode=TwoWay}"/>
+            <Editor Placeholder="Text" HeightRequest="200" Text="{Binding Path=Text, Mode=TwoWay}"/>
+            <Grid ColumnSpacing="10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="250"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="100"/>
+                </Grid.ColumnDefinitions>
+                <Entry Grid.Column="0" Placeholder="Sender rank" Text="{Binding Path=SenderRank, Mode=TwoWay}"/>
+                <Entry Grid.Column="1" Placeholder="Sender full name" Text="{Binding Path=SenderFullName, Mode=TwoWay}"/>
+                <Button Grid.Column="2" Text="Send" Command="{Binding Path = SendCommand}"/>
+            </Grid>
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>

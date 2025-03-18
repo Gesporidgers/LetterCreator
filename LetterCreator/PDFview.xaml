@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="LetterCreator.PDFview"
+             Title="PDFview">
+    <VerticalStackLayout Spacing="10">
+        <WebView x:Name="viewer"  MinimumHeightRequest="600"/>
+        <Button Text="Coxранить" Clicked="Button_Clicked"/>
+    </VerticalStackLayout>
+</ContentPage>
