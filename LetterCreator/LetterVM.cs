@@ -19,6 +19,7 @@ namespace LetterCreator
 		[Property] private string _adress;
 		[Property] private string _phone;
 		[Property] private string _recipient;
+		[Property] private string _recipientRank;
 		[Property] private string _theme;
 		[Property] private string _text;
 		[Property] private string _senderRank;
@@ -40,6 +41,7 @@ namespace LetterCreator
 					{ "<Adress>", _adress },
 					{ "<Phone>", _phone },
 					{ "<Recipient>", _recipient },
+					{ "<RecipRank>", _recipientRank },
 					{ "<Theme>", _theme },
 					{ "<Text>", _text },
 					{ "<Rank>", _senderRank },
@@ -73,7 +75,7 @@ namespace LetterCreator
 				App.Current?.Windows[0].Page?.DisplayAlert("Error", "Phone number is not valid", "OK");
 		}
 
-		[CommandInvalidate(nameof(Adress), nameof(Phone), nameof(Recipient), nameof(Theme), nameof(Text), nameof(SenderRank), nameof(SenderFullName))]
+		[CommandInvalidate(nameof(Adress), nameof(Phone), nameof(Recipient),nameof(RecipientRank), nameof(Theme), nameof(Text), nameof(SenderRank), nameof(SenderFullName))]
 		private bool CanSend() => !string.IsNullOrEmpty(_adress) && !string.IsNullOrEmpty(_phone) && !string.IsNullOrEmpty(_recipient) && !string.IsNullOrEmpty(_theme) && !string.IsNullOrEmpty(_text) && !string.IsNullOrEmpty(_senderRank) && !string.IsNullOrEmpty(_senderFullName);
 
 		partial void OnInitialize()
