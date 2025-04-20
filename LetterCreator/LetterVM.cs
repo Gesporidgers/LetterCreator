@@ -48,7 +48,6 @@ namespace LetterCreator
 					{ "<SenderName>", _senderFullName },
 					{ "<Date>", DateTime.Now.ToString("dd.MM.yyyy")   }
 				};
-
 				Microsoft.Office.Interop.Word.Application word = new Microsoft.Office.Interop.Word.Application();
 				Microsoft.Office.Interop.Word.Document srcDoc = word.Documents.Open(_templatePath, ReadOnly: true);
 				Microsoft.Office.Interop.Word.Range range = srcDoc.Content;
@@ -73,6 +72,7 @@ namespace LetterCreator
 			}
 			else
 				App.Current?.Windows[0].Page?.DisplayAlert("Error", "Phone number is not valid", "OK");
+			
 		}
 
 		[CommandInvalidate(nameof(Adress), nameof(Phone), nameof(Recipient),nameof(RecipientRank), nameof(Theme), nameof(Text), nameof(SenderRank), nameof(SenderFullName))]
