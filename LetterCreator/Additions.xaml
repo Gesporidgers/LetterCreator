@@ -1,25 +1,31 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                xmlns:local="clr-namespace:LetterCreator.Converter"
              x:Class="LetterCreator.Additions"
              Title="Additions">
-    <VerticalStackLayout VerticalOptions="Center" Spacing="25">
+    <ContentPage.Resources>
+        <local:BoolInverter x:Key="BoolInverter"/>
+    </ContentPage.Resources>
+    <VerticalStackLayout VerticalOptions="Center" Spacing="25" Margin="25">
         <Label 
             Text="Приложений пока нет, создайте их!"
             VerticalOptions="Center" 
             HorizontalOptions="Center" IsVisible="{Binding Path=EmptyElements}"/>
         <Button Text="Создать" WidthRequest="100" IsVisible="{Binding Path=EmptyElements}" Command="{Binding AddCommand}"/>
-        <Editor Text="{Binding Text,Mode=TwoWay}"/>
-        <Grid>
+        <Editor HeightRequest="500" Text="{Binding Text,Mode=TwoWay}" IsVisible="{Binding Path=EmptyElements,Converter={StaticResource BoolInverter}}"/>
+        <Grid IsVisible="{Binding Path=EmptyElements,Converter={StaticResource BoolInverter}}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
                 <ColumnDefinition/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
-            <Button Grid.Column="0" Text="←"/>
+            <Button Grid.Column="0" Text="←" Command="{Binding PrevCommand}"/>
             <Label Grid.Column="1" Text="{Binding Path=NavText}"  VerticalOptions="Center" 
  HorizontalOptions="Center"/>
-            <Button Grid.Column="2" Text="→"/>
+            <Button Grid.Column="2" Text="→" Command="{Binding NextCommand}"/>
         </Grid>
+        <Button Grid.Column="1" Text="Save" Command="{Binding SaveAllCommand}" IsVisible="{Binding Path=EmptyElements,Converter={StaticResource BoolInverter}}"/>
+
     </VerticalStackLayout>
 </ContentPage>
