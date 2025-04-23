@@ -64,7 +64,8 @@ namespace LetterCreator
 			_text = string.Empty;
 			if (File.Exists(FileSystem.Current.AppDataDirectory + "\\additions.json"))
 			{
-				additions = JsonSerializer.Deserialize<List<string>>(File.ReadAllText("additions.json"));
+				EmptyElements = false;
+				additions = JsonSerializer.Deserialize<List<string>>(File.ReadAllText(Path.Combine(FileSystem.AppDataDirectory,"additions.json")));
 				PageIndex = 1;
 				this.NavText = $"{pageIndex}/{additions.Count}";
 				this.Text = additions[pageIndex - 1];

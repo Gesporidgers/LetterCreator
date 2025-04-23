@@ -9,6 +9,7 @@ using Microsoft.Maui.Controls.Platform;
 using System.Reflection.Metadata;
 using Microsoft.Office.Interop.Word;
 using Microsoft.Maui.Controls.PlatformConfiguration.WindowsSpecific;
+using System.Text.Json;
 
 
 namespace LetterCreator
@@ -26,8 +27,8 @@ namespace LetterCreator
 		[Property] private string _senderFullName;
 		private string _templatePath;
 		public Action OpenPDF;
-		
-		
+
+
 
 		[Command(CanExecuteMethod = nameof(CanSend))]
 		private void Send()
@@ -36,6 +37,14 @@ namespace LetterCreator
 
 			if (phone.IsValid(_phone))
 			{
+				List<string> applications = new List<string>();
+				try
+				{
+					applications = JsonSerializer.Deserialize<List<string>>(File.ReadAllText(Path.Combine(FileSystem.AppDataDirectory, "additions.json")));
+				}
+				catch (FileNotFoundException)
+				{ }
+				string appl = applications.Count > 0 ? $"В данном письме содержится {applications.Count} приложений" : string.Empty;
 				Dictionary<string, string> data = new Dictionary<string, string>
 				{
 					{ "<Adress>", _adress },
@@ -46,7 +55,9 @@ namespace LetterCreator
 					{ "<Text>", _text },
 					{ "<Rank>", _senderRank },
 					{ "<SenderName>", _senderFullName },
-					{ "<Date>", DateTime.Now.ToString("dd.MM.yyyy")   }
+					{ "<Date>", DateTime.Now.ToString("dd.MM.yyyy") },
+					{ "<Applications>", appl }
+
 				};
 				Microsoft.Office.Interop.Word.Application word = new Microsoft.Office.Interop.Word.Application();
 				Microsoft.Office.Interop.Word.Document srcDoc = word.Documents.Open(_templatePath, ReadOnly: true);
@@ -58,10 +69,18 @@ namespace LetterCreator
 				{
 					newDoc.Content.Find.Execute(FindText: tag.Key, ReplaceWith: tag.Value, Replace: WdReplace.wdReplaceAll);
 				}
+				if (applications.Count != 0)
+					foreach (string item in applications)
+					{
+						int index = applications.IndexOf(item) + 1;
+						newDoc.Content.InsertAfter(index.ToString() + ". " + item + "\n");
+					}
 				try
 				{
 					newDoc.SaveAs2(FileSystem.Current.AppDataDirectory + "\\res.pdf", FileFormat: WdExportFormat.wdExportFormatPDF);
-					OpenPDF.Invoke();
+					File.Delete(Path.Combine(FileSystem.AppDataDirectory, "additions.json"));
+					App.Current?.OpenWindow(new Microsoft.Maui.Controls.Window(new PDFview()));
+
 				}
 				catch (Exception)
 				{
@@ -72,10 +91,10 @@ namespace LetterCreator
 			}
 			else
 				App.Current?.Windows[0].Page?.DisplayAlert("Error", "Phone number is not valid", "OK");
-			
+
 		}
 
-		[CommandInvalidate(nameof(Adress), nameof(Phone), nameof(Recipient),nameof(RecipientRank), nameof(Theme), nameof(Text), nameof(SenderRank), nameof(SenderFullName))]
+		[CommandInvalidate(nameof(Adress), nameof(Phone), nameof(Recipient), nameof(RecipientRank), nameof(Theme), nameof(Text), nameof(SenderRank), nameof(SenderFullName))]
 		private bool CanSend() => !string.IsNullOrEmpty(_adress) && !string.IsNullOrEmpty(_phone) && !string.IsNullOrEmpty(_recipient) && !string.IsNullOrEmpty(_theme) && !string.IsNullOrEmpty(_text) && !string.IsNullOrEmpty(_senderRank) && !string.IsNullOrEmpty(_senderFullName);
 
 		partial void OnInitialize()
