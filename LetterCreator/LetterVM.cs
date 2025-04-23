@@ -10,6 +10,7 @@ using System.Reflection.Metadata;
 using Microsoft.Office.Interop.Word;
 using Microsoft.Maui.Controls.PlatformConfiguration.WindowsSpecific;
 using System.Text.Json;
+using Font = Microsoft.Office.Interop.Word.Font;
 
 
 namespace LetterCreator
@@ -69,6 +70,8 @@ namespace LetterCreator
 				{
 					newDoc.Content.Find.Execute(FindText: tag.Key, ReplaceWith: tag.Value, Replace: WdReplace.wdReplaceAll);
 				}
+				newDoc.Content.Font.Name = "Times New Roman";
+				newDoc.Content.Font.Size = 14;
 				if (applications.Count != 0)
 					foreach (string item in applications)
 					{
