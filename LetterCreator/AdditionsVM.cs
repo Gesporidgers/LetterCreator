@@ -1,11 +1,5 @@
 ﻿using MvvmGen;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
 using System.Text.Json;
-using System.Threading.Tasks;
 
 namespace LetterCreator
 {
@@ -16,7 +10,7 @@ namespace LetterCreator
 		public List<string> additions;
 		[Property] string _text;
 		[Property] string _navText;
-		[Property]private int pageIndex = 0;
+		[Property] private int pageIndex = 0;
 
 		[Command]
 		private void Add()
@@ -65,7 +59,7 @@ namespace LetterCreator
 			if (File.Exists(FileSystem.Current.AppDataDirectory + "\\additions.json"))
 			{
 				EmptyElements = false;
-				additions = JsonSerializer.Deserialize<List<string>>(File.ReadAllText(Path.Combine(FileSystem.AppDataDirectory,"additions.json")));
+				additions = JsonSerializer.Deserialize<List<string>>(File.ReadAllText(Path.Combine(FileSystem.AppDataDirectory, "additions.json")));
 				PageIndex = 1;
 				this.NavText = $"{pageIndex}/{additions.Count}";
 				this.Text = additions[pageIndex - 1];
@@ -76,7 +70,7 @@ namespace LetterCreator
 		private void SaveAll()
 		{
 			additions[pageIndex - 1] = this.Text;
-			File.WriteAllText(FileSystem.Current.AppDataDirectory+"\\additions.json", JsonSerializer.Serialize(additions));
+			File.WriteAllText(FileSystem.Current.AppDataDirectory + "\\additions.json", JsonSerializer.Serialize(additions));
 		}
 	}
 }

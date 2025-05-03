@@ -1,5 +1,3 @@
-using System.Threading.Tasks;
-
 namespace LetterCreator;
 
 public partial class PDFview : ContentPage
@@ -15,6 +13,6 @@ public partial class PDFview : ContentPage
 
 	private void Button_Clicked(object sender, EventArgs e)
 	{
-		File.Copy(path,"C:\\Users\\konko\\Documents\\res.pdf",true);
+		File.Copy(path, "C:\\Users\\konko\\Documents\\res.pdf", true);
 	}
 }

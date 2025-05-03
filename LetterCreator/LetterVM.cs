@@ -1,16 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using Microsoft.Office.Interop.Word;
 using MvvmGen;
-using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
-using Microsoft.Maui.Controls.Platform;
-using System.Reflection.Metadata;
-using Microsoft.Office.Interop.Word;
-using Microsoft.Maui.Controls.PlatformConfiguration.WindowsSpecific;
 using System.Text.Json;
-using Font = Microsoft.Office.Interop.Word.Font;
 
 
 namespace LetterCreator
